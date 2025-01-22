@@ -18,8 +18,8 @@ jobs:
       uses: google-github-actions/setup-gcloud@v1
       with:
         service_account_email: ${{ secrets.GCP_SERVICE_ACCOUNT_EMAIL }}
-        service_account_key: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
-        project_id: gcp-cloud-dataengineer-project
+        service_account_key: ${{ secrets.GCP_PUSH_BUCKET_KEY }}
+        project_id: dotted-banner-448417-n1
 
     # Debug gcloud authentication
     - name: Verify gcloud Auth
