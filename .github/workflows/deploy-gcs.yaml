@@ -21,9 +21,9 @@ jobs:
     # Setup gcloud CLI
     - uses: google-github-actions/setup-gcloud@v1
       with:
-        service_account_email: ${{ secrets.GCP_PUSH_BUCKET }}
+        service_account_email: ${{ secrets.GCP_SERVICE_ACCOUNT_EMAIL }}
         service_account_key: ${{ secrets.GCP_PUSH_BUCKET }}
-        project_id: My First Project
+        project_id: dotted-banner-448417-n1
 
     - name: Deploy via GCS
       run: |
