@@ -1,31 +1,28 @@
 name: GCS Deployment
 
 # Controls when the action will run. Triggers the workflow on push or pull request
-# events but only for the main branch
+# events but only for the master branch
 on:
   push:
     branches: [ master ]
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "deploy"
   deploy:
-    # The type of runner that the job will run on
+    # This workflow contains a single job called "deploy"
     runs-on: ubuntu-latest
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    # Checks out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
 
     # Setup gcloud CLI
-    - uses: google-github-actions/setup-gcloud@v0
+    - uses: google-github-actions/setup-gcloud@v2
       with:
         service_account_email: ${{ secrets.GCP_PUSH_BUCKET_EMAIL }}
         service_account_key: ${{ secrets.GCP_PUSH_BUCKET_KEY }}
         project_id: dotted-banner-448417-n1
 
+    # Deploy via GCS: Sync files (update, add, and delete files)
     - name: Deploy via GCS
       run: |
-        gsutil -m rm -rf gs://resturent_nyc_dataset/* || echo "$?"
-        gsutil -m cp -r * gs://resturent_nyc_dataset/
+        gsutil -m rsync -r -d . gs://resturent_nyc_dataset/
