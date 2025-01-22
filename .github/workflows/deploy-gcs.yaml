@@ -13,13 +13,13 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    # Authenticate with Google Cloud using a Service Account
+    # Authenticate with Google Cloud using the service account
     - name: Authenticate to Google Cloud
       uses: google-github-actions/auth@v0
       with:
         credentials_json: ${{ secrets.GCP_PUSH_BUCKET }}
 
-    # Verify gcloud authentication
+    # Verify the authentication
     - name: Verify gcloud Auth
       run: |
         gcloud auth list
@@ -34,4 +34,5 @@ jobs:
         # Copy files to the bucket
         gsutil -m cp -r * gs://resturent_nyc_dataset/
       env:
-        CLOUDSDK_METRICS_ENVIRONMENT: github-actions-setup-gcloud
+        GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GCP_PUSH_BUCKET }}
+        CLOUDSDK_CORE_PROJECT: dotted-banner-448417-n1
