@@ -1,33 +1,24 @@
-name: GCS Deployment
+name: Deploy to GCS
 
 on:
   push:
-    branches: [ master ]
+    branches:
+      - main
 
 jobs:
-  deploy:
+  upload-to-gcs:
     runs-on: ubuntu-latest
 
     steps:
-    # Checkout the repository
-    - name: Checkout repository
+    - name: Checkout code
       uses: actions/checkout@v3
 
-    # Setup gcloud CLI with proper authentication
-    - name: Setup gcloud CLI
+    - name: Set up Google Cloud SDK
       uses: google-github-actions/setup-gcloud@v1
       with:
-        service_account_email: ${{ secrets.GCP_PUSH_BUCKET_EMAIL }}
-        service_account_key: ${{ secrets.GCP_PUSH_BUCKET_KEY }}
+        service_account_key: ${{ secrets.GCP_KEY }}
         project_id: dotted-banner-448417-n1
 
-    # Deploy files to GCS
-    - name: Deploy files to GCS
+    - name: Upload files to GCS
       run: |
-        # Remove existing files in the bucket
-        gsutil -m rm -r gs://resturent_nyc_dataset/* || echo "Warning: Failed to delete objects"
-
-        # Copy files to the bucket
-        gsutil -m cp -r * gs://resturent_nyc_dataset/
-      env:
-        CLOUDSDK_METRICS_ENVIRONMENT: github-actions-setup-gcloud
+        gsutil -m rsync -r ./local-folder gs://resturent_nyc_dataset/
