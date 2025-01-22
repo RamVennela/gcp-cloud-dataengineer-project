@@ -19,15 +19,15 @@ jobs:
       with:
         service_account_email: ${{ secrets.GCP_SERVICE_ACCOUNT_EMAIL }}
         service_account_key: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
-        project_id: gcp-cloud-dataengineer-project
+        project_id: dotted-banner-448417-n1
 
     # Deploy files to GCS
     - name: Deploy files to GCS
       run: |
         # Remove existing files in the bucket
-        gsutil -m rm -r gs://github-action-gcs/* || echo "Warning: Failed to delete objects"
+        gsutil -m rm -r gs:// resturent_nyc_dataset/* || echo "Warning: Failed to delete objects"
 
         # Copy files to the bucket
-        gsutil -m cp -r * gs://github-action-gcs/
+        gsutil -m cp -r * gs://resturent_nyc_dataset/
       env:
         CLOUDSDK_METRICS_ENVIRONMENT: github-actions-setup-gcloud
