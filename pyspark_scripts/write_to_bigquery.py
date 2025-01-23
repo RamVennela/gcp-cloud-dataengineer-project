@@ -10,7 +10,7 @@ from pyspark.sql import functions as F
 spark = SparkSession.builder.appName("Write to BigQuery").getOrCreate()
 
 # In[3]:
-input_path='gs://resturent_nyc_dataset/NYC Restaurant Inspection/NYC_Restaurant_Inspection_Results_20250121.csv'
+input_path="gs://all-row-datasets-files/resturent_nyc_dataset/NYC_Restaurant_Inspection_Results_20250121.csv"
 df = spark.read.csv(input_path,header=True,inferSchema=True)
 
 # In[4]:
@@ -34,7 +34,7 @@ df_uppercase = df_cleaned.toDF(*[col.upper() for col in df.columns])
 print(df_uppercase)
 
 # In[9]:
-df_cleaned.write.format("bigquery").option("table","dotted-banner-448417-n1.nyc_rest_results.nyc_rest_results_insp").option("temporaryGcsBucket", "resturent_nyc_dataset").mode("overwrite").save()
+df_cleaned.write.format("bigquery").option("table","dotted-banner-448417-n1.nyc_rest_results.rest_results_nyc").option("temporaryGcsBucket", "resturent_nyc_dataset").mode("overwrite").save()
 
 # In[10]:
 spark.stop()
