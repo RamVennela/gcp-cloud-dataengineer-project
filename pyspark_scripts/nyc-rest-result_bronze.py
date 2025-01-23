@@ -18,7 +18,7 @@ df.count()
 
 # In[33]:
 bucket_name = "bronze-output-datasets"
-file_path = f"gs://{bucket_name}/NYC Restaurant Inspection/bronze_data"
+file_path = f"gs://{bucket_name}/NYC_Restaurant_Inspection/bronze_data"
 df.write.mode("overwrite").csv(file_path)
 
 spark.stop()
