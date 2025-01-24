@@ -43,7 +43,7 @@ with DAG(
     start_cluster = BashOperator(
         task_id='start_cluster',
         bash_command="""
-        gcloud dataproc clusters my-nyc-rest-cluster \
+        gcloud dataproc clusters start my-nyc-rest-cluster \
         --region us-central1 \
         --project dotted-banner-448417-n1
         """
