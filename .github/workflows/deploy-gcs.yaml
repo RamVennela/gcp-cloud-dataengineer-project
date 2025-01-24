@@ -26,7 +26,7 @@ jobs:
     - name: Deploy via GCS
       run: |
         # Sync files from bucket1 to the first GCS bucket
-        gsutil -m rsync -r ./resturent_nyc_dataset gs://resturent_nyc_dataset/
+        gsutil -m rsync -r ./python-scripts-etl gs://python-scripts-etl/
 
         # Sync files from bucket2 to the 'dags' folder in the second GCS bucket
-        gsutil -m rsync -r ./bronze-output-datasets gs://bronze-output-datasets/dags/
+        gsutil -m rsync -r ./gcp-composer-etl-dags gs://gcp-composer-etl-dags/dags/
