@@ -3,6 +3,8 @@ from datetime import datetime, timedelta
 from airflow import DAG
 from airflow.providers.google.cloud.operators.dataproc import DataprocSubmitJobOperator
 from airflow.operators.bash import BashOperator
+from airflow.utils.trigger_rule import TriggerRule
+
 # Default arguments for the DAG
 default_args = {
     'owner': 'airflow',
