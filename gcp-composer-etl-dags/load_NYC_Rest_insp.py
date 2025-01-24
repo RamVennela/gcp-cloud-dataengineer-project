@@ -1,7 +1,8 @@
+import airflow
 from datetime import datetime, timedelta
 from airflow import DAG
 from airflow.providers.google.cloud.operators.dataproc import DataprocSubmitJobOperator
-
+from airflow.operators.bash import BashOperator
 # Default arguments for the DAG
 default_args = {
     'owner': 'airflow',
@@ -34,11 +35,20 @@ with DAG(
     default_args=default_args,
     description='A DAG to submit a PySpark job to GCP Dataproc',
     schedule_interval=timedelta(days=1),
-    start_date=datetime(2025, 1, 25),
+    start_date=datetime(2025, 1, 20),
     catchup=False,
     tags=['gcp', 'dataproc', 'spark'],
 ) as dag:
 
+    start_cluster = BashOperator(
+        task_id='start_cluster',
+        bash_command="""
+        gcloud dataproc clusters my-nyc-rest-cluster \
+        --region us-central1 \
+        --project dotted-banner-448417-n1
+        """
+    )
+    
     # Task to submit Spark job to Dataproc
     load_to_GCS = DataprocSubmitJobOperator(
         task_id='load_to_GCS',
@@ -56,5 +66,15 @@ with DAG(
         gcp_conn_id="google_cloud_default",
     )
 
+    # Task to stop the Dataproc cluster
+    stop_cluster = BashOperator(
+        task_id='stop_cluster',
+        bash_command="""
+        gcloud dataproc clusters stop my-nyc-rest-cluster \
+        --region us-central1 \
+        --project dotted-banner-448417-n1
+        """
+    )
+
     # The task is added to the DAG
-    load_to_GCS >> load_to_BQ
+    start_cluster >> load_to_GCS >> load_to_BQ >> stop_cluster
