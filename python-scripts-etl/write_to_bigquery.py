@@ -34,7 +34,7 @@ df_uppercase = df_cleaned.toDF(*[col.upper() for col in df.columns])
 print(df_uppercase)
 
 # In[9]:
-df_cleaned.write.format("bigquery").option("table","dotted-banner-448417-n1.nyc_rest_results.rest_results_nyc").option("temporaryGcsBucket", "resturent_nyc_dataset").mode("overwrite").save()
+df_cleaned.write.format("bigquery").option("table","dotted-banner-448417-n1.nyc_rest_results.rest_results_nyc").option("temporaryGcsBucket", "bigquery-temp-file-bucket").mode("overwrite").save()
 
 # In[10]:
 spark.stop()
