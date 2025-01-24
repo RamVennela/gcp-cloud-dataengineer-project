@@ -64,6 +64,7 @@ with DAG(
         region="us-central1",
         project_id="dotted-banner-448417-n1",
         gcp_conn_id="google_cloud_default",
+        trigger_rule=TriggerRule.ALL_SUCCESS
     )
 
     # Task to stop the Dataproc cluster
@@ -73,8 +74,11 @@ with DAG(
         gcloud dataproc clusters stop my-nyc-rest-cluster \
         --region us-central1 \
         --project dotted-banner-448417-n1
-        """
+        """,
+        trigger_rule=TriggerRule.NONE_FAILED
     )
 
     # The task is added to the DAG
     start_cluster >> load_to_GCS >> load_to_BQ >> stop_cluster
+    load_to_GCS >> load_to_BQ >> stop_cluster  # If load_to_GCS fails, it proceeds to load_to_BQ and stop_cluster
+    load_to_BQ >> stop_cluster  # If load_to_BQ fails, it proceeds to stop_cluster
