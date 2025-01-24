@@ -16,7 +16,7 @@ SPARK_JOB1 = {
     "reference": {"project_id": "dotted-banner-448417-n1"},
     "placement": {"cluster_name": "my-nyc-rest-cluster"},
     "pyspark_job": {
-        "main_python_file_uri": "gs://resturent_nyc_dataset/pyspark_scripts/nyc-rest-result_bronze.py",
+        "main_python_file_uri": "gs://python-scripts-etl/nyc-rest-result_bronze.py",
     },
 }
 
@@ -24,7 +24,7 @@ SPARK_JOB2 = {
     "reference": {"project_id": "dotted-banner-448417-n1"},
     "placement": {"cluster_name": "my-nyc-rest-cluster"},
     "pyspark_job": {
-        "main_python_file_uri": "gs://resturent_nyc_dataset/pyspark_scripts/write_to_bigquery.py",
+        "main_python_file_uri": "gs://python-scripts-etl/write_to_bigquery.py",
     },
 }
 
