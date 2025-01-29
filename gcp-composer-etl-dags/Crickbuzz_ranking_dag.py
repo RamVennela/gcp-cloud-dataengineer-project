@@ -27,7 +27,7 @@ SPARK_JOB2 = {
     "reference": {"project_id": "dotted-banner-448417-n1"},
     "placement": {"cluster_name": "my-nyc-rest-cluster"},
     "pyspark_job": {
-        "main_python_file_uri": "gs://python-scripts-etl/Crickbuzz_ranking_GCS.py",
+        "main_python_file_uri": "gs://python-scripts-etl/Crickbuzz_ranking_BQ.py",
     },
 }
 
@@ -59,7 +59,6 @@ with DAG(
         """
     )
 
-    
     # Task to submit Spark job to Dataproc
     load_to_GCS = DataprocSubmitJobOperator(
         task_id='load_to_GCS',
@@ -90,6 +89,6 @@ with DAG(
     )
 
     # The task is added to the DAG
-    start_cluster >> load_to_GCS >> load_to_BQ >> stop_cluster
+    start_cluster >> fetch_apidata >> load_to_GCS >> load_to_BQ >> stop_cluster
     load_to_GCS >> load_to_BQ >> stop_cluster  # If load_to_GCS fails, it proceeds to load_to_BQ and stop_cluster
     load_to_BQ >> stop_cluster  # If load_to_BQ fails, it proceeds to stop_cluster
