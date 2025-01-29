@@ -17,7 +17,7 @@ default_args = {
 # Spark job configuration
 SPARK_JOB1 = {
     "reference": {"project_id": "dotted-banner-448417-n1"},
-    "placement": {"cluster_name": "my-nyc-rest-cluster"},
+    "placement": {"cluster_name": "all-etl-dataproc-cluster"},
     "pyspark_job": {
         "main_python_file_uri": "gs://python-scripts-etl/Crickbuzz_ranking_GCS.py",
     },
@@ -25,7 +25,7 @@ SPARK_JOB1 = {
 
 SPARK_JOB2 = {
     "reference": {"project_id": "dotted-banner-448417-n1"},
-    "placement": {"cluster_name": "my-nyc-rest-cluster"},
+    "placement": {"cluster_name": "all-etl-dataproc-cluster"},
     "pyspark_job": {
         "main_python_file_uri": "gs://python-scripts-etl/Crickbuzz_ranking_BQ.py",
     },
@@ -45,7 +45,7 @@ with DAG(
     start_cluster = BashOperator(
         task_id='start_cluster',
         bash_command="""
-        gcloud dataproc clusters start my-nyc-rest-cluster \
+        gcloud dataproc clusters start all-etl-dataproc-cluster \
         --region us-central1 \
         --project dotted-banner-448417-n1
         """
@@ -81,7 +81,7 @@ with DAG(
     stop_cluster = BashOperator(
         task_id='stop_cluster',
         bash_command="""
-        gcloud dataproc clusters stop my-nyc-rest-cluster \
+        gcloud dataproc clusters stop all-etl-dataproc-cluster \
         --region us-central1 \
         --project dotted-banner-448417-n1
         """,
