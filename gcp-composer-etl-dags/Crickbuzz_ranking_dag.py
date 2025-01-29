@@ -33,7 +33,7 @@ SPARK_JOB2 = {
 
 # Define the DAG
 with DAG(
-    dag_id='NYC_Resrurent_insp',
+    dag_id='crickbuzz_ranking',
     default_args=default_args,
     description='A DAG to submit a PySpark job to GCP Dataproc',
     schedule_interval=timedelta(days=1),
